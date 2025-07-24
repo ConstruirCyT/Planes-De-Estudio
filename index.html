@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Correlatividades con Progreso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variables CSS para colores basados en la paleta verde */
+        :root {
+            --color-aprobada: #55B562; /* Verde Primario - Brillante y distintivo */
+            --color-regular: #C8D775;  /* Verde/Amarillo - Para estados intermedios */
+            --color-no-cursada: #334155; /* Gris verdoso oscuro - Para estados neutros */
+            --color-cursando: #86D57F; /* Verde medio - Para materias en curso */
+            --color-promocionada: #55B562; /* Verde Primario (igual que aprobada) */
+            --color-equivalencia: #55B562; /* Verde Primario */
+            --color-abandonada: #dc2626; /* Rojo - Mantener para alerta de estado negativo */
+
+            /* Nuevas variables para fondos y texto que complementan */
+            --color-dark-green-bg: #0F3D3E; /* Verde muy oscuro para fondo principal */
+            --color-medium-dark-green-bg: #1A5354; /* Verde oscuro para secciones y tarjetas */
+            --color-accent-green: #55B562; /* Verde de acento, usado en botones y progreso */
+            --color-light-green-text: #E2E8F0; /* Texto claro general */
+            --color-mid-green-text: #B2D6B8; /* Texto secundario más verde */
+        }
+        body {
+            font-family: 'Saira', sans-serif; /* Cambiar fuente a Saira */
+            background: linear-gradient(135deg, var(--color-dark-green-bg), var(--color-medium-dark-green-bg)); /* Degradado de verdes oscuros */
+            color: var(--color-light-green-text); /* Color de texto general claro */
+        }
+        /* Estilos de la columna de cuatrimestre */
+        .cuatrimestre-columna {
+            min-width: 250px; /* Ancho mínimo para las columnas */
+            flex: 1; /* Permite que las columnas se expandan */
+            max-width: 300px; /* Ancho máximo para no desbordar en pantallas grandes */
+        }
+        /* Estilos generales de las tarjetas de materia */
+        .materia {
+            transition: all 0.2s ease-in-out; /* Transición suave para cambios visuales */
+            cursor: pointer; /* Indica que es un elemento clickable */
+            border: 2px solid transparent; /* Borde transparente por defecto */
+            position: relative; /* Para posicionar el ícono de estado */
+            min-height: 120px; /* Altura mínima para las tarjetas */
+        }
+        /* Estilos de los estados de materia */
+        .materia.aprobada, .materia.promocionada, .materia.equivalencia {
+            background: linear-gradient(135deg, var(--color-aprobada), #438D4F); /* Degradado de verdes de aprobado */
+            border-color: #86D57F; /* Borde verde claro */
+        }
+        .materia.regular {
+            background: linear-gradient(135deg, var(--color-regular), #A5B660); /* Degradado de verdes de regular */
+            border-color: #E6F099; /* Borde amarillo verdoso claro */
+        }
+        .materia.cursando {
+            background: linear-gradient(135deg, var(--color-cursando), #65A36A); /* Degradado de verdes de cursando */
+            border-color: #B3E8AE; /* Borde verde claro */
+        }
+        .materia.abandonada {
+            background: linear-gradient(135deg, var(--color-abandonada), #A01B1B); /* Degradado de rojos */
+            border-color: #E08585; /* Borde rojo suave */
+        }
+        /* Borde para materias con correlativas no cumplidas */
+        .materia.requiere-correlativa {
+            border-color: #F87171; /* Rojo suave para indicar requisito no cumplido */
+            box-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
+        }
+
+        /* Estilos al pasar el ratón (hover) */
+        .materia:hover {
+            transform: translateY(-3px); /* Pequeño levantamiento */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+        }
+        /* Resaltado de materias que necesitan a la actual (correlativas) */
+        .materia.necesita {
+            border-color: var(--color-regular); /* Borde verde/amarillo */
+            box-shadow: 0 0 10px rgba(200, 215, 117, 0.5);
+            transform: scale(1.02); /* Un poco más grande */
+            z-index: 10; /* Asegura que esté por encima de otras */
+        }
+        /* Resaltado de materias que la actual habilita */
+        .materia.habilita {
+            border-color: var(--color-cursando); /* Borde verde claro */
+            box-shadow: 0 0 10px rgba(134, 213, 127, 0.5);
+            transform: scale(1.02); /* Un poco más grande */
+            z-index: 10;
+        }
+        /* Estilos del estado de dictado */
+        .dictado-punto {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        /* Fondo para el modal (oscurece el resto de la página) */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 99; /* Asegura que esté por encima de todo */
+        }
+        /* Animación para el modal */
+        .modal-content {
+            animation: fadeInScale 0.3s ease-out;
+        }
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        /* Estilos específicos para el input de nota */
+        #grade-input-container.hidden {
+            display: none;
+        }
+        #grade-input-container.visible {
+            display: block;
+        }
+
+        /* Toast Notification */
+        #toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-medium-dark-green-bg); /* Fondo de notificación verde oscuro */
+            color: var(--color-light-green-text); /* Texto claro */
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            z-index: 100;
+        }
+
+        #toast-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Ocultar scrollbar pero permitir scroll */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen p-6 flex flex-col items-center">
+    <div class="absolute top-4 right-4 text-slate-400 text-sm">
+        <p>Hecho por: [Tu Nombre Aquí]</p>
+        <p>Contacto: [Tu Contacto/LinkedIn/GitHub]</p>
+    </div>
+
+    <div class="max-w-7xl w-full mx-auto px-4 py-8">
+        <header class="flex flex-col md:flex-row items-center justify-center md:justify-between mb-8">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <img src="Assets/Post verticales.png" alt="Logo de Agrupación" class="h-16">
+                <div>
+                   <h1 class="text-3xl font-bold mb-4" id="main-title">Seguimiento de Carrera</h1>
+                    <h2 class="text-2xl text-[#55B562] font-semibold text-center md:text-left" id="titulo-carrera"></h2>
+                </div>
+            </div>
+            <div class="flex flex-col items-center md:items-end space-y-4">
+                <div class="w-full bg-[#1A5354] rounded-full h-4 mb-2"> <div id="progress-bar" class="bg-[#55B562] h-4 rounded-full" style="width: 0%;"></div> </div>
+                <p class="text-lg font-medium">Progreso: <span id="progress-display">0%</span></p>
+                <p class="text-lg font-medium">Promedio: <span id="average-display">N/A</span></p>
+                
+                <div class="flex items-center space-x-2 mt-4">
+                    <label for="plan-selector" class="text-lg font-medium">Elegir Plan:</label>
+                    <select id="plan-selector" class="p-2 rounded-lg bg-[#2A6B6A] border border-[#1A5354] text-white"> <option value="tpi">TPI</option>
+                        <option value="tri">TRI</option>
+                        </select>
+                    <button id="apply-plan-button" class="bg-[#55B562] hover:bg-[#438D4F] text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+                        Cargar Plan
+                    </button>
+                </div>
+                
+                <div class="flex space-x-4 mt-4">
+                    <button id="print-progress-button" class="bg-[#55B562] hover:bg-[#438D4F] text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+                        Exportar Progreso (CSV)
+                    </button>
+                    <button id="reset-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+                        Reiniciar Progreso
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <section class="bg-[#1A5354] p-6 rounded-lg shadow-lg mb-8"> <h3 class="text-xl font-semibold mb-4 text-center">Guia</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                <div>
+                    <p class="font-bold mb-2">Estados de Materia:</p>
+                    <ul class="space-y-1">
+                        <li><span class="inline-block w-4 h-4 rounded-full bg-[#334155] align-middle mr-2"></span>No Cursada</li> <li><span class="inline-block w-4 h-4 rounded-full bg-[#86D57F] align-middle mr-2"></span>Cursando</li> <li><span class="inline-block w-4 h-4 rounded-full bg-[#C8D775] align-middle mr-2"></span>Regular</li> <li><span class="inline-block w-4 h-4 rounded-full bg-[#55B562] align-middle mr-2"></span>Aprobada / Promocionada / Equivalencia</li> <li><span class="inline-block w-4 h-4 rounded-full bg-red-600 align-middle mr-2"></span>Abandonada</li> </ul>
+                </div>
+                <div>
+                    <p class="font-bold mb-2">Cuatrimestre de Dictado:</p>
+                    <ul class="space-y-1">
+                        <li><span class="dictado-punto bg-purple-500"></span>1er Cuatrimestre</li>
+                        <li><span class="dictado-punto bg-pink-500"></span>2do Cuatrimestre</li>
+                        <li><span class="dictado-punto bg-orange-500"></span>Ambos Cuatrimestres</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-bold mb-2">Correlatividades:</p>
+                    <ul class="space-y-1">
+                        <li><span class="inline-block w-4 h-4 rounded border-2 border-[#C8D775] align-middle mr-2"></span>Necesaria para esta materia</li> <li><span class="inline-block w-4 h-4 rounded border-2 border-[#55B562] align-middle mr-2"></span>Habilitada por esta materia</li> </ul>
+                </div>
+            </div>
+        </section>
+
+        <div id="plan-de-estudios" class="flex flex-wrap md:flex-nowrap justify-center gap-4">
+            </div>
+    </div>
+
+    <div id="status-modal" class="fixed inset-0 hidden items-center justify-center z-[999]">
+    <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50 z-0"></div>
+    <div class="modal-content bg-[#1A5354] p-8 rounded-lg shadow-xl w-11/12 max-w-lg relative border border-[#2A6B6A] z-10"> <h3 id="modal-title" class="text-2xl font-bold mb-4 text-center"></h3>
+        <p id="modal-error-message" class="text-red-400 text-center mb-4 hidden"></p>
+
+        <div id="modal-options" class="space-y-3 mb-6">
+            </div>
+
+        <div id="grade-input-container" class="mb-6 hidden">
+            <label id="grade-input-label" for="grade-input" class="block text-sm font-medium text-slate-300 mb-2">Nota Final:</label>
+            <input type="number" id="grade-input" class="w-full p-3 rounded-lg bg-[#2A6B6A] border border-[#1A5354] text-white focus:outline-none focus:ring-2 focus:ring-[#55B562]" placeholder="Ej: 7"> </div>
+
+        <button id="modal-close-btn" class="w-full bg-[#55B562] hover:bg-[#438D4F] text-white font-bold py-3 rounded-lg transition-colors duration-200">
+            Guardar y Cerrar
+        </button>
+    </div>
+</div>
+
+    <div id="confirm-reset-modal" class="fixed inset-0 hidden items-center justify-center z-[999]">
+    <div class="modal-backdrop absolute inset-0 bg-black bg-opacity-50 z-0"></div>
+    <div class="modal-content bg-[#1A5354] p-8 rounded-lg shadow-xl w-11/12 max-w-sm relative border border-[#2A6B6A] z-10"> <h3 class="text-xl font-bold mb-4 text-center">Reiniciar Progreso</h3>
+        <p class="text-center mb-6">¿Estás seguro de que quieres reiniciar todo el progreso? Esta acción no se puede deshacer.</p>
+        <div class="flex justify-center space-x-4">
+            <button id="cancel-reset-btn" class="bg-[#2A6B6A] hover:bg-[#3A807E] text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+                Cancelar
+            </button>
+            <button id="confirm-reset-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">
+                Confirmar Reinicio
+            </button>
+        </div>
+    </div>
+</div>
+
+    <div id="toast-notification" class="text-center">
+        </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

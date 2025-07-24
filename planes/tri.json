@@ -1,0 +1,290 @@
+[
+    {
+        "id": "1",
+        "nombre": "Matemática 1",
+        "cuatrimestre": 1,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "2",
+        "nombre": "Laboratorio de computación",
+        "cuatrimestre": 1,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "3",
+        "nombre": "Electricidad y magnetismo",
+        "cuatrimestre": 1,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "4",
+        "nombre": "Matemática 2",
+        "cuatrimestre": 2,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [1, 2],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [1, 2]
+        }
+        }
+    },
+    {
+        "id": "5",
+        "nombre": "Sistema de procesamiento de datos",
+        "cuatrimestre": 2,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [2],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [2]
+        }
+        }
+    },
+    {
+        "id": "6",
+        "nombre": "Laboratorio de computación 2",
+        "cuatrimestre": 2,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [2],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [2]
+        }
+        }
+    },
+    {
+        "id": "7",
+        "nombre": "Algoritmos 1",
+        "cuatrimestre": 3,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [4, 5, 6],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [4, 5, 6]
+        }
+        }
+    },
+    {
+        "id": "8",
+        "nombre": "Matemática 3",
+        "cuatrimestre": 3,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [4, 6],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [4, 6]
+        }
+        }
+    },
+    {
+        "id": "9",
+        "nombre": "Conceptos de arquitecturas y sistemas operativos",
+        "cuatrimestre": 3,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [5, 6],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [5, 6]
+        }
+        }
+    },
+    {
+        "id": "10",
+        "nombre": "Redes de informacion 1",
+        "cuatrimestre": 4,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [7],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [7]
+        }
+        }
+    },
+    {
+        "id": "11",
+        "nombre": "Redes locales",
+        "cuatrimestre": 4,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [9],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [9]
+        }
+        }
+    },
+    {
+        "id": "12",
+        "nombre": "Proyecto 1",
+        "cuatrimestre": 4,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [8],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [8]
+        }
+        }
+    },
+    {
+        "id": "13",
+        "nombre": "Redes de informacion 2",
+        "cuatrimestre": 5,
+        "dictado":"ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [10],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [10]
+        }
+        }
+    },
+    {
+        "id": "14",
+        "nombre": "Administracion de redes de computadoras",
+        "cuatrimestre": 5,
+        "dictado":"2",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [10],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [10]
+        }
+        }
+    },
+    {
+        "id": "15",
+        "nombre": "Proyecto 2",
+        "cuatrimestre": 5,
+        "dictado":"2",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [10, 12],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [10, 12]
+        }
+        }
+    },
+    {
+        "id": "16",
+        "nombre": "Redes de informacion 3",
+        "cuatrimestre": 6,
+        "dictado":"1",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [13],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [13]
+        }
+        }
+    },
+    {
+        "id": "17",
+        "nombre": "Sistemas avanzados de comunicacion",
+        "cuatrimestre": 6,
+        "dictado":"1",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [13],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [13]
+        }
+        }
+    },
+    {
+        "id": "18",
+        "nombre": "Proyecto 3",
+        "cuatrimestre": 6,
+        "dictado":"1",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [14, 15],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": [14, 15]
+        }
+        }
+    }
+]
