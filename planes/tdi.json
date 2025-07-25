@@ -124,7 +124,7 @@
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0002", "T0004"]
         }
         }
     },
@@ -151,12 +151,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0005", "T0006"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0005", "T0006"]
         }
         }
     },
@@ -167,12 +167,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0004", "T0005", "T0006"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0004", "T0005", "T0006"]
         }
         }
     },
@@ -263,12 +263,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0103", "T0104", "T0106", "T0102"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0103", "T0104", "T0106", "T0102"]
         }
         }
     },
@@ -295,12 +295,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0019", "T0107", "T0108"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0019", "T0107", "T0108"]
         }
         }
     },
@@ -311,12 +311,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0019"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0019"]
         }
         }
     },
@@ -328,12 +328,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0019", "T0107", "T0108"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0019", "T0107", "T0108"]
         }
         }
     },
@@ -344,12 +344,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0019", "T0107", "T0108", "T0101"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0019", "T0107", "T0108", "T0101"]
         }
         }
     },
@@ -360,12 +360,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0007", "T0113"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0007", "T0113"]
         }
         }
     },
@@ -376,12 +376,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0113", "T0111"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0113", "T0111"]
         }
         }
     },
@@ -392,12 +392,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0113"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0113"]
         }
         }
     },
@@ -408,12 +408,12 @@
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
-        "regularizadas": [],
+        "regularizadas": ["T0019", "T0107", "T0108", "T0101"],
         "aprobadas": []
         },
         "paraFinal": {
         "regularizadas": [],
-        "aprobadas": []
+        "aprobadas": ["T0019", "T0107", "T0108", "T0101"]
         }
         }
     }

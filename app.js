@@ -583,14 +583,55 @@ async function cargarMaterias(planName) {
 function renderPlan() {
     planDeEstudiosContainer.innerHTML = ''; // Limpiar el contenedor existente
 
-    // Agrupar materias por cuatrimestre
+    // Agrupar materias por cuatrimestre (solo las que no son electivas)
     const cuatrimestres = {};
     materias.forEach(materia => {
-        if (!cuatrimestres[materia.cuatrimestre]) {
-            cuatrimestres[materia.cuatrimestre] = [];
+        if (materia.cuatrimestre !== "electiva" && materia.cuatrimestre !== "optativa") {
+            if (!cuatrimestres[materia.cuatrimestre]) {
+                cuatrimestres[materia.cuatrimestre] = [];
+            }
+            cuatrimestres[materia.cuatrimestre].push(materia);
         }
-        cuatrimestres[materia.cuatrimestre].push(materia);
     });
+    renderOptativasFila();
+    ;
+
+
+function renderOptativasFila() {
+    const optativasFila = document.getElementById('optativas-fila');
+    const optativasList = document.getElementById('optativas-list');
+    // Filtrar electivas (cuatrimestre === null)
+    
+    const electivas = materias.filter(m => m.cuatrimestre === "optativa" || m.cuatrimestre === "electiva");
+    if (electivas.length === 0) {
+        optativasFila.style.display = 'none';
+        optativasList.innerHTML = '';
+    } else {
+        optativasFila.style.display = '';
+        // Renderizar tarjetas de electivas
+        optativasList.innerHTML = '';
+        electivas.forEach(materia => {
+            const materiaDiv = document.createElement('div');
+            materiaDiv.className = `materia p-4 rounded-lg shadow mb-3 border-2 border-slate-700 ${materia.status}`;
+            materiaDiv.dataset.id = materia.id;
+
+            materiaDiv.innerHTML = `
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-lg font-semibold">${materia.nombre}</h4>
+                    <span class="status-icon text-2xl">${statusOptions[materia.status].icon}</span>
+                </div>
+                <p class="text-slate-400 text-sm mb-1">
+                    ${materia.cuatrimestre}
+                    <span class="dictado-punto ${materia.dictado === '1' ? 'bg-purple-500' : materia.dictado === '2' ? 'bg-pink-500' : 'bg-orange-500'}"></span>   
+                </p>
+                <p class="text-slate-300 text-sm grade-display ${materia.nota === null ? 'hidden' : ''}">
+                    Nota: ${materia.nota !== null ? materia.nota : ''}
+                </p>
+            `;
+            optativasList.appendChild(materiaDiv);
+        });
+    }
+}
 
     // Ordenar cuatrimestres
     const cuatrimestresOrdenados = Object.keys(cuatrimestres).sort((a, b) => parseInt(a) - parseInt(b));

@@ -1,0 +1,535 @@
+[
+    {
+        "id": "N1",
+        "nombre": "Analisis 1",
+        "cuatrimestre": 1,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "CD01",
+        "nombre": "Introducción a la ciencia de datos",
+        "cuatrimestre": 1,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "CD02",
+        "nombre": "Programación 1",
+        "cuatrimestre": 1,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "N10",
+        "nombre": "Analisis 2",
+        "cuatrimestre": 2,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "CD03",
+        "nombre": "Matematica discreta",
+        "cuatrimestre": 2,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["N1"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["N1"]
+        }
+        }
+    },
+    {
+        "id": "CD04",
+        "nombre": "Introdcucción al aprendizaje automatico",
+        "cuatrimestre": 2,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["N1", "CD01", "CD02"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["N1", "CD01", "CD02"]
+        }
+        }
+    },
+    {
+        "id": "CD05",
+        "nombre": "Infraestructura para ciencia de datos",
+        "cuatrimestre": 3,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD02"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD02"]
+        }
+        }
+    },
+    {
+        "id": "TPI07",
+        "nombre": "Algoritmos 1",
+        "cuatrimestre": 3,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "CB34",
+        "nombre": "Probabilidad y estadistica",
+        "cuatrimestre": 3,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["N10"],
+        "aprobadas": ["N1"]
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["N10"]
+        }
+        }
+    },
+    {
+        "id": "CD06",
+        "nombre": "Estadistica e inferencia 1",
+        "cuatrimestre": 4,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CB34", "CD03"],
+        "aprobadas": ["N1", "N10"]
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CB34", "CD03"]
+        }
+        }
+    },
+    {
+        "id": "TPI10",
+        "nombre": "Algoritmos 2",
+        "cuatrimestre": 4,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "EL1",
+        "nombre": "Electiva 1",
+        "cuatrimestre": 4,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "CD07",
+        "nombre": "Estadistica e inferencia 2",
+        "cuatrimestre": 5,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD06"],
+        "aprobadas": ["CB34", "CD03"]
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD06"]
+        }
+        }
+    },
+    {
+        "id": "CD08",
+        "nombre": "Programación 2",
+        "cuatrimestre": 5,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD02", "TPI10"],
+        "aprobadas": ["N10", "CD03", "TPI07"]
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD02", "TPI10"]
+        }
+        }
+    },
+    {
+        "id": "EL2",
+        "nombre": "Electiva 2",
+        "cuatrimestre": 5,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "CD09",
+        "nombre": "Ciencia de datos",
+        "cuatrimestre": 6,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD07", "CD08"],
+        "aprobadas": ["CD06", "CD02", "TPI10"]
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD07", "CD08"]
+        }
+        }
+    },
+    {
+        "id": "TPI14",
+        "nombre": "Bases de datos",
+        "cuatrimestre": 6,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "CD10",
+        "nombre": "Ingenieria de software",
+        "cuatrimestre": 6,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD06", "TPI10"],
+        "aprobadas": ["CD02", "CD03", "TPI07", "N10"]
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD06", "TPI10"]
+        }
+        }
+    },
+    {
+        "id": "CD11",
+        "nombre": "Aprendizaje automatico",
+        "cuatrimestre": 7,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD08", "CD07"],
+        "aprobadas": ["CD02", "CD06", "TPI10"]
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD08", "CD07"]
+        }
+        }
+    },
+    {
+        "id": "EL3",
+        "nombre": "Electiva 3",
+        "cuatrimestre": 7,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "OP1",
+        "nombre": "Optativa 1",
+        "cuatrimestre": 7,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "CD12",
+        "nombre": "Aprendizaje profundo",
+        "cuatrimestre": 8,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD11"],
+        "aprobadas": ["CD07", "CD08"]
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD11"]
+        }
+        }
+    },
+    {
+        "id": "OP2",
+        "nombre": "Optativa 2",
+        "cuatrimestre": 8,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "OP3",
+        "nombre": "Optativa 3",
+        "cuatrimestre": 8,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "ADE",
+        "nombre": "Analisis de datos espaciales",
+        "dictado": "ambos",
+        "cuatrimestre": "electiva",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD04", "CD06"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD04", "CD06"]
+        }
+        }
+    },
+    {
+        "id": "BAY",
+        "nombre": "Inferencia bayesiana causal",
+        "dictado": "ambos",
+        "cuatrimestre": "electiva",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD06"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD06"]
+        }
+        }
+    },
+    {
+        "id": "GDB",
+        "nombre": "Gobernanza de datos",
+        "dictado": "ambos",
+        "cuatrimestre": "electiva",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD04"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD04"]
+        }
+        }
+    },
+    {
+        "id": "SQL",
+        "nombre": "Lenguaje SQL",
+        "dictado": "ambos",
+        "cuatrimestre": "electiva",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CD05"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CD05"]
+        }
+        }
+    },
+    {
+        "id": "MNM",
+        "nombre": "Metodos numericos",
+        "dictado": "ambos",
+        "cuatrimestre": "electiva",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["TPI07", "N10"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["TPI07", "N10"]
+        }
+        }
+    },
+    {
+        "id": "EAA",
+        "nombre": "Equidad en aprendizaje automatico",
+        "dictado": "ambos",
+        "cuatrimestre": "electiva",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["CB34", "CD04", "CD06"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["CB34", "CD04", "CD06"]
+        }
+        }
+    },
+    {
+        "id": "IAS",
+        "nombre": "Introduccion a la sociologia",
+        "dictado": "ambos",
+        "cuatrimestre": "electiva",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "TEA",
+        "nombre": "Taller de escritura y argumentacion",
+        "dictado": "ambos",
+        "cuatrimestre": "electiva",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "INC",
+        "nombre": "Introduccion a la neurociencia computacional",
+        "dictado": "ambos",
+        "cuatrimestre": "optativa",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    }
+    
+    
+    
+    
+
+]
