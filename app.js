@@ -296,8 +296,18 @@ function checkCorrelativas(materia, tipoRequisito) {
  */
 function openModal(materiaId) {
     currentMateriaId = materiaId;
-    const materia = materias.find(m => m.id === materiaId);
+    let materia = materias.find(m => m.id === materiaId);
+    const currentMateri= materia;
     if (!materia) return;
+
+    // Detectar si es una casilla de electiva/optativa
+    const esCasillaElectiva = materia.EsOptOElec === true;
+
+    if (esCasillaElectiva && materia.electivaAsignada) {
+        const electiva = materias.find(m => m.id === materia.electivaAsignada);
+        if (electiva) materia = electiva;
+    }
+   
 
     modalTitle.textContent = materia.nombre;
     modalErrorMessage.textContent = '';
@@ -322,10 +332,22 @@ function openModal(materiaId) {
 
     // Añadir event listeners a los nuevos radio buttons del modal
     modalOptionsContainer.querySelectorAll('input[name="status"]').forEach(radio => {
-        // Remover listener antes de añadir para evitar duplicados si el modal se reabre
         radio.removeEventListener('change', handleStatusOptionChange);
         radio.addEventListener('change', handleStatusOptionChange);
     });
+
+    // --- DESHABILITAR ESTADOS SI NO HAY ELECTIVA SELECCIONADA ---
+    if (esCasillaElectiva && materia.cuatrimestre !== 'electiva' && materia.cuatrimestre !== 'optativa') {
+        modalOptionsContainer.querySelectorAll('input[name="status"]').forEach(radio => {
+            if (radio.value !== 'no-cursada') {
+                radio.disabled = true;
+                radio.parentElement.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        });
+        // (Opcional) Mensaje aclaratorio
+        modalOptionsContainer.insertAdjacentHTML('beforeend',
+            `<div class="text-yellow-400 text-sm mt-2">Seleccioná una electiva/optativa para habilitar los estados.</div>`);
+    }
 
     // Mostrar el modal
     statusModal.classList.remove('hidden');
@@ -334,7 +356,60 @@ function openModal(materiaId) {
     if (gradeInputContainer.classList.contains('visible')) {
         gradeInput.focus();
     }
+
+    if (esCasillaElectiva) {
+    // Si es una casilla de electiva/optativa, mostrar el selector de electivas
+    const disponibles = currentMateri.filter(m =>
+        (m.EsOptOElec === false) && (m.cuatrimestre === "electiva" || m.cuatrimestre === "optativa" || m.cuatrimestre === currentMateriaId.cuatrimestre) // Mostrar la asignada actual también
+    );
+
+    let selectHtml = `<label class="block mt-4 mb-2 font-semibold">Seleccionar materia:</label>
+        <select id="selector-electiva" class="p-2 rounded bg-slate-700 w-full">
+            <option value="">-- Selecciona una electica/optatica --</option>`;
+    disponibles.forEach(opt => {
+        const selected = (opt.id === materia.electivaAsignada) ? 'selected' : '';
+        selectHtml += `<option value="${opt.id}" ${selected}>${opt.nombre}</option>`;
+    });
+    selectHtml += `</select>`;
+
+    modalOptionsContainer.insertAdjacentHTML('beforeend', selectHtml);
+    }   
+
+
+    if (esCasillaElectiva) {
+    const selector = document.getElementById('selector-electiva');
+    if (selector) {
+        selector.addEventListener('change', (e) => {
+            const nuevoId = e.target.value;
+
+            if (nuevoId === materia.id) {
+                // Volver al default (ninguna electiva asignada)
+                delete materia.electivaAsignada;
+                const anterior = materias.find(m => m.asignada && m.id !== materia.id);
+                if (anterior) anterior.asignada = false;
+            } else {
+                // Desasignar la anterior si había
+                if (materia.electivaAsignada && materia.electivaAsignada !== nuevoId) {
+                    const anterior = materias.find(m => m.id === materia.electivaAsignada);
+                    if (anterior) anterior.asignada = false;
+                }
+
+                materia.electivaAsignada = nuevoId;
+
+                const electiva = materias.find(m => m.id === nuevoId);
+                if (electiva) electiva.asignada = true;
+            }
+
+            actualizarProgreso?.();
+            renderizarMaterias?.();
+        });
+    }
 }
+
+
+}
+
+
 
 /**
  * Handler para el evento 'change' de las opciones de estado en el modal.
@@ -449,7 +524,13 @@ function updateGradeInputForStatus(status) {
         gradeInput.max = '10';
     }
     toggleGradeInputVisibility(status);
+
+
+
 }
+
+
+
 
 
 /**
@@ -457,7 +538,7 @@ function updateGradeInputForStatus(status) {
  * Realiza la validación final antes de guardar.
  */
 function closeModal() {
-    const materia = materias.find(m => m.id === currentMateriaId);
+    let materia = materias.find(m => m.id === currentMateriaId);
     if (!materia) return;
 
     const selectedRadio = modalOptionsContainer.querySelector('input[name="status"]:checked');
@@ -513,6 +594,30 @@ function closeModal() {
     }
     // --- Fin Validación de Nota ---
 
+    // Si es casilla de electiva, actualizá la asignación
+    if (materia.EsOptOElec === true) {
+        const selector = document.getElementById('selector-electiva');
+        if (selector) {
+            // Desasignar la electiva anterior si la hay
+            if (materia.electivaAsignada) {
+                const anterior = materias.find(m => m.id === materia.electivaAsignada);
+                if (anterior) anterior.asignada = false;
+            }
+            // Asignar la nueva electiva
+            const electivaId = selector.value;
+            materia.electivaAsignada = electivaId;
+            const electiva = materias.find(m => m.id === electivaId);
+            if (electiva) electiva.asignada = true;
+            electiva.cuatrimestre = materia.cuatrimestre; // Asegurar que la electiva tenga el cuatrimestre correcto
+        }
+        // Si hay electiva asignada, los cambios de estado y nota se aplican a la electiva real:
+        if (materia.electivaAsignada) {
+            materia = materias.find(m => m.id === materia.electivaAsignada);
+        }
+    }
+
+// Ahora actualizá materia.status y materia.nota normalmente
+
     // Si todas las validaciones (correlativas y nota) pasan, entonces se actualiza y cierra
     materia.status = newStatus;
     materia.nota = newGrade;
@@ -521,7 +626,7 @@ function closeModal() {
     statusModal.classList.remove('flex'); // Quitar la clase flex para que hidden funcione
     currentMateriaId = null; // Limpiar la materia actual
 
-    updateMateriaView(materia.id); // Actualiza solo la tarjeta de la materia que cambió
+    
     saveState(); // Guarda el estado actualizado
     updateMetrics(); // Recalcula y actualiza las métricas de progreso
     renderPlan(); // Re-renderiza todo el plan para actualizar visualmente las correlativas de otras materias
@@ -556,10 +661,13 @@ async function cargarMaterias(planName) {
 
         // Inicializar materias con status y nota por defecto
         materias = data.map(materia => ({
-            ...materia,
-            status: 'no-cursada', // Estado inicial
-            nota: null // Nota inicial
+        ...materia,
+        status: 'no-cursada',
+        nota: null,
+        electivaAsignada: null // <-- importante para las casillas electivas/optativas
         }));
+
+        
 
         tituloCarrera.innerText = `Seguimiento de Carrera: ${planName.toUpperCase()}`;
 
@@ -582,6 +690,12 @@ async function cargarMaterias(planName) {
  */
 function renderPlan() {
     planDeEstudiosContainer.innerHTML = ''; // Limpiar el contenedor existente
+    renderOptativasFila();
+    renderMaterias(); 
+    ;
+}
+    // Ordenar cuatrimestres
+function renderMaterias() {
 
     // Agrupar materias por cuatrimestre (solo las que no son electivas)
     const cuatrimestres = {};
@@ -593,9 +707,70 @@ function renderPlan() {
             cuatrimestres[materia.cuatrimestre].push(materia);
         }
     });
-    renderOptativasFila();
-    ;
 
+
+    const cuatrimestresOrdenados = Object.keys(cuatrimestres).sort((a, b) => parseInt(a) - parseInt(b));
+
+        cuatrimestresOrdenados.forEach(numCuatrimestre => {
+            const columnaDiv = document.createElement('div');
+            columnaDiv.className = 'cuatrimestre-columna bg-slate-800 p-4 rounded-lg shadow-xl m-2 flex-shrink-0 flex-grow';
+            columnaDiv.innerHTML = `<h3 class="text-xl font-bold mb-4 text-center text-cyan-400">${numCuatrimestre}° Cuatrimestre</h3>`;
+
+            cuatrimestres[numCuatrimestre].sort((a, b) => a.nombre.localeCompare(b.nombre)).forEach(materia => {
+            const materiaDiv = document.createElement('div');
+
+            // Usar la electiva real para correlativas si corresponde
+            let materiaParaCorrelativas = materia;
+            let materiaRender = materia;
+            if (materia.EsOptOElec === true && materia.electivaAsignada) {
+                const electiva = materias.find(m => m.id === materia.electivaAsignada);
+                if (electiva) materiaRender = electiva;
+            }
+
+            // --- AQUÍ VA EL CÁLCULO DEL BORDE ---
+            const unmetCorrelativasForRegular = checkCorrelativas(materiaParaCorrelativas, 'cursar');
+            const unmetCorrelativasForApproved = checkCorrelativas(materiaParaCorrelativas, 'final');
+            const canBeRegular = unmetCorrelativasForRegular.length === 0;
+            const canBeApproved = unmetCorrelativasForApproved.length === 0;
+
+            let borderClass = 'border-slate-700'; // gris por defecto
+            if (!canBeRegular) {
+                borderClass = 'border-red-500'; // No puede cursar
+            } else if (!canBeApproved) {
+                borderClass = 'border-orange-400'; // Puede cursar pero no rendir final
+            }
+            // --- FIN DEL CÁLCULO DEL BORDE ---
+
+            materiaDiv.className = `materia p-4 rounded-lg shadow mb-3 border-2 ${borderClass} ${materiaRender.status}`;
+            materiaDiv.dataset.id = materiaRender.id;
+            materiaDiv.dataset.correlativasParaCursar = JSON.stringify(materiaRender.correlativas?.paraCursar || {});
+            materiaDiv.dataset.correlativasParaFinal = JSON.stringify(materiaRender.correlativas?.paraFinal || {});
+
+            let dictadoColor = '';
+            if (materiaRender.dictado === '1') dictadoColor = 'bg-purple-500';
+            else if (materiaRender.dictado === '2') dictadoColor = 'bg-pink-500';
+            else if (materiaRender.dictado === 'ambos') dictadoColor = 'bg-orange-500';
+
+            materiaDiv.innerHTML = `
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="text-lg font-semibold">${materiaRender.nombre}</h4>
+                    <span class="status-icon text-2xl">${statusOptions[materiaRender.status].icon}</span>
+                </div>
+                <p class="text-slate-400 text-sm mb-1">
+                    Cuatrimestre: ${materiaRender.cuatrimestre}
+                    <span class="dictado-punto ${dictadoColor}"></span>
+                </p>
+                <p class="text-slate-300 text-sm grade-display ${materiaRender.nota === null ? 'hidden' : ''}">
+                    Nota: ${materiaRender.nota !== null ? materiaRender.nota : ''}
+                </p>
+            `;
+            columnaDiv.appendChild(materiaDiv);
+        });
+
+        planDeEstudiosContainer.appendChild(columnaDiv);
+    });
+    addEventListeners(); // Re-agrega los event listeners después de renderizar
+}
 
 function renderOptativasFila() {
     const optativasFila = document.getElementById('optativas-fila');
@@ -611,79 +786,44 @@ function renderOptativasFila() {
         // Renderizar tarjetas de electivas
         optativasList.innerHTML = '';
         electivas.forEach(materia => {
-            const materiaDiv = document.createElement('div');
-            materiaDiv.className = `materia p-4 rounded-lg shadow mb-3 border-2 border-slate-700 ${materia.status}`;
-            materiaDiv.dataset.id = materia.id;
+    // Chequear correlativas
+    const unmetCorrelativasForRegular = checkCorrelativas(materia, 'cursar');
+    const unmetCorrelativasForApproved = checkCorrelativas(materia, 'final');
+    const canBeRegular = unmetCorrelativasForRegular.length === 0;
+    const canBeApproved = unmetCorrelativasForApproved.length === 0;
 
-            materiaDiv.innerHTML = `
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-lg font-semibold">${materia.nombre}</h4>
-                    <span class="status-icon text-2xl">${statusOptions[materia.status].icon}</span>
-                </div>
-                <p class="text-slate-400 text-sm mb-1">
-                    ${materia.cuatrimestre}
-                    <span class="dictado-punto ${materia.dictado === '1' ? 'bg-purple-500' : materia.dictado === '2' ? 'bg-pink-500' : 'bg-orange-500'}"></span>   
-                </p>
-                <p class="text-slate-300 text-sm grade-display ${materia.nota === null ? 'hidden' : ''}">
-                    Nota: ${materia.nota !== null ? materia.nota : ''}
-                </p>
-            `;
-            optativasList.appendChild(materiaDiv);
-        });
+    // Determinar clase de borde
+    let borderClass = '';
+    if (!canBeRegular) {
+        borderClass = 'border-red-500'; // No puede cursar
+    } else if (!canBeApproved) {
+        borderClass = 'border-orange-400'; // Puede cursar pero no rendir final
     }
-}
 
-    // Ordenar cuatrimestres
-    const cuatrimestresOrdenados = Object.keys(cuatrimestres).sort((a, b) => parseInt(a) - parseInt(b));
+    const materiaDiv = document.createElement('div');
+    materiaDiv.className = `materia p-4 rounded-lg shadow mb-3 border-2 border-slate-700 ${borderClass} ${materia.status}`;
+    materiaDiv.dataset.id = materia.id;
 
-    cuatrimestresOrdenados.forEach(numCuatrimestre => {
-        const columnaDiv = document.createElement('div');
-        columnaDiv.className = 'cuatrimestre-columna bg-slate-800 p-4 rounded-lg shadow-xl m-2 flex-shrink-0 flex-grow';
-        columnaDiv.innerHTML = `<h3 class="text-xl font-bold mb-4 text-center text-cyan-400">${numCuatrimestre}° Cuatrimestre</h3>`;
+    materiaDiv.innerHTML = `
+        <div class="flex justify-between items-center mb-2">
+            <h4 class="text-lg font-semibold">${materia.nombre}</h4>
+            <span class="status-icon text-2xl">${statusOptions[materia.status].icon}</span>
+        </div>
+        <p class="text-slate-400 text-sm mb-1">
+            Electiva/Optativa
+        </p>
+        <p class="text-slate-300 text-sm grade-display ${materia.nota === null ? 'hidden' : ''}">
+            Nota: ${materia.nota !== null ? materia.nota : ''}
+        </p>
+    `;
 
-        cuatrimestres[numCuatrimestre].sort((a, b) => a.nombre.localeCompare(b.nombre)).forEach(materia => {
-            const materiaDiv = document.createElement('div');
-            // Determinar el color del punto de dictado
-            let dictadoColor = '';
-            if (materia.dictado === '1') dictadoColor = 'bg-purple-500'; // 1er cuatrimestre
-            else if (materia.dictado === '2') dictadoColor = 'bg-pink-500'; // 2do cuatrimestre
-            else if (materia.dictado === 'ambos') dictadoColor = 'bg-orange-500'; // Ambos
-
-            const unmetCorrelativasForRegular = checkCorrelativas(materia, 'cursar');
-            const unmetCorrelativasForApproved = checkCorrelativas(materia, 'final');
-
-            // Añadir clase 'requiere-correlativa' si no puede ser regular o aprobada
-            const canBeRegular = unmetCorrelativasForRegular.length === 0;
-            const canBeApproved = unmetCorrelativasForApproved.length === 0;
-            const requiresCorrelativeClass = (!canBeRegular && materia.status === 'no-cursada') || (!canBeApproved && !approvedStates.includes(materia.status));
-
-
-            materiaDiv.className = `materia p-4 rounded-lg shadow mb-3 border-2 border-slate-700 ${materia.status} ${requiresCorrelativeClass ? 'requiere-correlativa' : ''}`;
-            materiaDiv.dataset.id = materia.id; // Almacena el ID para identificar la materia al hacer clic
-            materiaDiv.dataset.correlativasParaCursar = JSON.stringify(materia.correlativas?.paraCursar || {});
-            materiaDiv.dataset.correlativasParaFinal = JSON.stringify(materia.correlativas?.paraFinal || {});
-
-            const dictadoLabel = materia.dictado === '1' ? '1° Cuatrimestre' :
-                                 materia.dictado === '2' ? '2° Cuatrimestre' : 'Ambos Cuatrimestres';
-
-            materiaDiv.innerHTML = `
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="text-lg font-semibold">${materia.nombre}</h4>
-                    <span class="status-icon text-2xl">${statusOptions[materia.status].icon}</span>
-                </div>
-                <p class="text-slate-400 text-sm mb-1">
-                    Cuatrimestre: ${materia.cuatrimestre}
-                    <span class="dictado-punto ${dictadoColor}"></span>
-                </p>
-                <p class="text-slate-300 text-sm grade-display ${materia.nota === null ? 'hidden' : ''}">
-                    Nota: ${materia.nota !== null ? materia.nota : ''}
-                </p>
-            `;
-            columnaDiv.appendChild(materiaDiv);
-        });
-        planDeEstudiosContainer.appendChild(columnaDiv);
-    });
-    addEventListeners(); // Re-agrega los event listeners después de renderizar
+    if (materia.asignada) {
+        materiaDiv.classList.add('opacity-50', 'pointer-events-none');
+        // O agregá un aviso visual
+    }
+    optativasList.appendChild(materiaDiv);
+});
+    }
 }
 
 
@@ -773,15 +913,23 @@ function addEventListeners() {
 
 // Handler para el clic en una materia (se usa en addEventListeners)
 function handleMateriaClick(e) {
-    const materiaId = e.currentTarget.dataset.id;
+    if(e.currentTarget.dataset.EsOptOElec === "true") {
     openModal(materiaId);
+    }
+    const materiaId = e.currentTarget.dataset.id;
+    openModal(materiaId); // Abre el modal para editar el estado de la materia
 }
-
 // Handlers para mouseover y mouseout (resaltado de correlativas)
 function handleMateriaMouseOver(e) {
     const materiaId = e.currentTarget.dataset.id;
-    const materiaActual = materias.find(m => m.id === materiaId);
+    let materiaActual = materias.find(m => m.id === materiaId);
     if (!materiaActual) return;
+
+     // Usar la electiva real si corresponde
+    if (materiaActual.EsOptOElec === true && materiaActual.electivaAsignada) {
+        const electiva = materias.find(m => m.id === materiaActual.electivaAsignada);
+        if (electiva) materiaActual = electiva;
+    }
 
     document.querySelectorAll('.materia').forEach(d => d.classList.remove('hovered', 'necesita', 'habilita'));
     e.currentTarget.classList.add('hovered');
@@ -815,14 +963,19 @@ function handleMateriaMouseOver(e) {
 
 
     // Resaltar las materias que esta habilita (para cursar o para final)
-    materias.forEach(m => {
-        const habilitaParaCursar = (m.correlativas?.paraCursar?.regularizadas?.includes(parseInt(materiaId)) || m.correlativas?.paraCursar?.aprobadas?.includes(parseInt(materiaId)));
-        const habilitaParaFinal = (m.correlativas?.paraFinal?.regularizadas?.includes(parseInt(materiaId)) || m.correlativas?.paraFinal?.aprobadas?.includes(parseInt(materiaId)));
-        if (habilitaParaCursar || habilitaParaFinal) {
-            const el = document.querySelector(`.materia[data-id="${m.id}"]`);
-            if (el) el.classList.add('habilita');
-        }
-    });
+  materias.forEach(m => {
+    const idStr = String(materiaId);
+    const habilitaParaCursar =
+        (m.correlativas?.paraCursar?.regularizadas?.map(String).includes(idStr)) ||
+        (m.correlativas?.paraCursar?.aprobadas?.map(String).includes(idStr));
+    const habilitaParaFinal =
+        (m.correlativas?.paraFinal?.regularizadas?.map(String).includes(idStr)) ||
+        (m.correlativas?.paraFinal?.aprobadas?.map(String).includes(idStr));
+    if (habilitaParaCursar || habilitaParaFinal) {
+        const el = document.querySelector(`.materia[data-id="${m.id}"]`);
+        if (el) el.classList.add('habilita');
+    }
+});
 }
 
 function handleMateriaMouseOut() {

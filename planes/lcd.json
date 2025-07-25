@@ -179,6 +179,7 @@
         "id": "EL1",
         "nombre": "Electiva 1",
         "cuatrimestre": 4,
+        "EsOptOElec": true,
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
@@ -227,6 +228,7 @@
         "id": "EL2",
         "nombre": "Electiva 2",
         "cuatrimestre": 5,
+        "EsOptOElec": true,
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
@@ -307,6 +309,7 @@
         "id": "EL3",
         "nombre": "Electiva 3",
         "cuatrimestre": 7,
+        "EsOptOElec": true,
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
@@ -324,6 +327,7 @@
         "nombre": "Optativa 1",
         "cuatrimestre": 7,
         "dictado": "ambos",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": [],
@@ -355,6 +359,7 @@
         "id": "OP2",
         "nombre": "Optativa 2",
         "cuatrimestre": 8,
+        "EsOptOElec": true,
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
@@ -371,6 +376,7 @@
         "id": "OP3",
         "nombre": "Optativa 3",
         "cuatrimestre": 8,
+        "EsOptOElec": true,
         "dictado": "ambos",
         "correlativas": {
         "paraCursar": {
@@ -388,6 +394,7 @@
         "nombre": "Analisis de datos espaciales",
         "dictado": "ambos",
         "cuatrimestre": "electiva",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": ["CD04", "CD06"],
@@ -404,6 +411,7 @@
         "nombre": "Inferencia bayesiana causal",
         "dictado": "ambos",
         "cuatrimestre": "electiva",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": ["CD06"],
@@ -420,6 +428,7 @@
         "nombre": "Gobernanza de datos",
         "dictado": "ambos",
         "cuatrimestre": "electiva",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": ["CD04"],
@@ -436,6 +445,7 @@
         "nombre": "Lenguaje SQL",
         "dictado": "ambos",
         "cuatrimestre": "electiva",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": ["CD05"],
@@ -452,6 +462,7 @@
         "nombre": "Metodos numericos",
         "dictado": "ambos",
         "cuatrimestre": "electiva",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": ["TPI07", "N10"],
@@ -468,6 +479,7 @@
         "nombre": "Equidad en aprendizaje automatico",
         "dictado": "ambos",
         "cuatrimestre": "electiva",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": ["CB34", "CD04", "CD06"],
@@ -484,6 +496,7 @@
         "nombre": "Introduccion a la sociologia",
         "dictado": "ambos",
         "cuatrimestre": "electiva",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": [],
@@ -500,6 +513,7 @@
         "nombre": "Taller de escritura y argumentacion",
         "dictado": "ambos",
         "cuatrimestre": "electiva",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": [],
@@ -516,6 +530,7 @@
         "nombre": "Introduccion a la neurociencia computacional",
         "dictado": "ambos",
         "cuatrimestre": "optativa",
+        "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
         "regularizadas": [],
