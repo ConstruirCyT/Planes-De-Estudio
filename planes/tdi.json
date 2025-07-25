@@ -1,0 +1,420 @@
+[
+     {
+        "id": "T0001",
+        "nombre": "Fisica 1",
+        "cuatrimestre": 1,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+
+    {
+        "id": "T0002",
+        "nombre": "Matematica 1(Analisis 1)",
+        "cuatrimestre": 1,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0003",
+        "nombre": "Anatomia y fisiologia 1",
+        "cuatrimestre": 1,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0004",
+        "nombre": "Introduccion a la computacion",
+        "cuatrimestre": 1,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0005",
+        "nombre": "Fisica 2",
+        "cuatrimestre": 2,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0001", "T0002"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0001", "T0002"]
+        }
+        }
+    },
+    {
+        "id": "T0006",
+        "nombre": "Matematica 2(Analisis 2)",
+        "cuatrimestre": 2,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0002"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0002"]
+        }
+        }
+    },
+    {
+        "id": "T0007",
+        "nombre": "Anatomia y fisiologia 2",
+        "cuatrimestre": 2,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0003"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0003"]
+        }
+        }
+    },
+    {
+        "id": "T0101",
+        "nombre": "Lenguajes de programacion",
+        "cuatrimestre": 2,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0002", "T0004"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0102",
+        "nombre": "Practicas hospitalarias en servicios de imagenes 1",
+        "cuatrimestre": 3,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0007"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0007"]
+        }
+        }
+    },
+    {
+        "id": "T0103",
+        "nombre": "Fisica 3",
+        "cuatrimestre": 3,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0104",
+        "nombre": "Tecnologia de las imagenes 1",
+        "cuatrimestre": 3,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0105",
+        "nombre": "Enfermeria y ergometría",
+        "cuatrimestre": 3,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0007"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0007"]
+        }
+        }
+    },
+    {
+        "id": "T0106",
+        "nombre": "Procesamiento digital de imagenes",
+        "cuatrimestre": 3,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0004","T0006"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0004","T0006"]
+        }
+        }
+    },
+    {
+        "id": "T0015",
+        "nombre": "Probabilidad y estadistica",
+        "cuatrimestre": 4,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0002", "T0006"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0002", "T0006"]
+        }
+        }
+    },
+    {
+        "id": "T0019",
+        "nombre": "Radioprotección",
+        "cuatrimestre": 4,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0103"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0103"]
+        }
+        }
+    },
+    {
+        "id": "T0107",
+        "nombre": "Practicas hospitalarias en servicios de imagenes 2",
+        "cuatrimestre": 4,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0102", "T0103", "T0104", "T0105", "T0106"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0102", "T0103", "T0104", "T0105", "T0106"]
+        }
+        }
+    },
+    {
+        "id": "T0108",
+        "nombre": "Tecnologia de las imagenes 2",
+        "cuatrimestre": 4,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0014",
+        "nombre": "Ética y deontologia",
+        "cuatrimestre": 5,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": ["T0105"],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": ["T0105"]
+        }
+        }
+    },
+    {
+        "id": "T0111",
+        "nombre": "Tecnologia de las imagenes 3",
+        "cuatrimestre": 5,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0112",
+        "nombre": "Radioquimica",
+        "cuatrimestre": 5,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+
+    {
+        "id": "T0113",
+        "nombre": "Practicas hospitalarias en servicios de imagenes 3",
+        "cuatrimestre": 5,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0110",
+        "nombre": "Proyecto final integrador",
+        "cuatrimestre": 5,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0114",
+        "nombre": "Imageneologia clinica",
+        "cuatrimestre": 6,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0115",
+        "nombre": "Tecnologia de las imagenes 4",
+        "cuatrimestre": 6,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0116",
+        "nombre": "Practicas hospitalarias en servicios de imagenes 4",
+        "cuatrimestre": 6,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    },
+    {
+        "id": "T0110",
+        "nombre": "Proyecto final integrador",
+        "cuatrimestre": 6,
+        "dictado": "ambos",
+        "correlativas": {
+        "paraCursar": {
+        "regularizadas": [],
+        "aprobadas": []
+        },
+        "paraFinal": {
+        "regularizadas": [],
+        "aprobadas": []
+        }
+        }
+    }
+]
