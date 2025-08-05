@@ -638,7 +638,7 @@ function renderOptativasFila() {
 
     cuatrimestresOrdenados.forEach(numCuatrimestre => {
         const columnaDiv = document.createElement('div');
-        columnaDiv.className = 'cuatrimestre-columna bg-slate-800 p-4 rounded-lg shadow-xl m-2 flex-shrink-0 w-[190px] max-w-[90vw]';
+        columnaDiv.className = 'cuatrimestre-columna bg-slate-800 p-4 rounded-lg shadow-xl m-2 flex-shrink-0 flex-grow';
         columnaDiv.innerHTML = `<h3 class="text-xl font-bold mb-4 text-center text-cyan-400">${numCuatrimestre}° Cuatrimestre</h3>`;
 
         cuatrimestres[numCuatrimestre].sort((a, b) => a.nombre.localeCompare(b.nombre)).forEach(materia => {
