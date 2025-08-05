@@ -4,6 +4,7 @@
         "nombre": "Analisis 1",
         "cuatrimestre": 1,
         "dictado": "ambos",
+        "EsOptOElec": false,
         "correlativas": {
         "paraCursar": {
         "regularizadas": [],
@@ -178,6 +179,7 @@
     {
         "id": "EL1",
         "nombre": "Electiva 1",
+        "electivaAsignada": true,
         "cuatrimestre": 4,
         "EsOptOElec": true,
         "dictado": "ambos",
@@ -227,6 +229,7 @@
     {
         "id": "EL2",
         "nombre": "Electiva 2",
+        "electivaAsignada": true,
         "cuatrimestre": 5,
         "EsOptOElec": true,
         "dictado": "ambos",
@@ -309,6 +312,7 @@
         "id": "EL3",
         "nombre": "Electiva 3",
         "cuatrimestre": 7,
+        "electivaAsignada": true,
         "EsOptOElec": true,
         "dictado": "ambos",
         "correlativas": {
@@ -327,6 +331,7 @@
         "nombre": "Optativa 1",
         "cuatrimestre": 7,
         "dictado": "ambos",
+        "electivaAsignada": true,
         "EsOptOElec": true,
         "correlativas": {
         "paraCursar": {
@@ -359,6 +364,7 @@
         "id": "OP2",
         "nombre": "Optativa 2",
         "cuatrimestre": 8,
+        "electivaAsignada": true,
         "EsOptOElec": true,
         "dictado": "ambos",
         "correlativas": {
@@ -375,6 +381,7 @@
     {
         "id": "OP3",
         "nombre": "Optativa 3",
+        "electivaAsignada": true,
         "cuatrimestre": 8,
         "EsOptOElec": true,
         "dictado": "ambos",

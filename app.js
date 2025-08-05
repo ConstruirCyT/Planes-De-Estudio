@@ -303,6 +303,9 @@ function openModal(materiaId) {
     // Detectar si es una casilla de electiva/optativa
     const esCasillaElectiva = materia.EsOptOElec === true;
 
+        
+    
+    
     if (esCasillaElectiva && materia.electivaAsignada) {
         const electiva = materias.find(m => m.id === materia.electivaAsignada);
         if (electiva) materia = electiva;
@@ -402,10 +405,9 @@ function openModal(materiaId) {
 
             actualizarProgreso?.();
             renderizarMaterias?.();
-        });
+            });
+        }
     }
-}
-
 
 }
 
@@ -660,11 +662,12 @@ async function cargarMaterias(planName) {
         const data = await response.json();
 
         // Inicializar materias con status y nota por defecto
+        
         materias = data.map(materia => ({
         ...materia,
         status: 'no-cursada',
         nota: null,
-        electivaAsignada: null // <-- importante para las casillas electivas/optativas
+        electivaAsignada: materia.electivaAsignada === true ? true : null // <-- importante para las casillas electivas/optativas
         }));
 
         
@@ -912,13 +915,15 @@ function addEventListeners() {
 }
 
 // Handler para el clic en una materia (se usa en addEventListeners)
-function handleMateriaClick(e) {
-    if(e.currentTarget.dataset.EsOptOElec === "true") {
-    openModal(materiaId);
-    }
+ function handleMateriaClick(e) {
     const materiaId = e.currentTarget.dataset.id;
-    openModal(materiaId); // Abre el modal para editar el estado de la materia
-}
+    let materia = materias.find(m => m.id === materiaId);
+     if(!materia.EsOptOElec || materia.electivaAsignada) {
+     openModal(materiaId);
+     }
+     
+      // Abre el modal para editar el estado de la materia
+ }
 // Handlers para mouseover y mouseout (resaltado de correlativas)
 function handleMateriaMouseOver(e) {
     const materiaId = e.currentTarget.dataset.id;
