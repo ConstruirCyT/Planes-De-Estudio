@@ -153,6 +153,14 @@
             -ms-overflow-style: none; /* IE and Edge */
             scrollbar-width: none; /* Firefox */
         }
+
+ @media (max-width: 768px) {
+    .cuatrimestre-columna {
+        min-width: 90vw;  /* Ocupar casi todo el ancho en móvil */
+        max-width: 95vw;
+        flex: 0 0 auto;   /* No crecer ni encogerse */
+    }
+}
     </style>
 </head>
 <body class="bg-slate-900 text-white min-h-screen p-6 flex flex-col items-center">
