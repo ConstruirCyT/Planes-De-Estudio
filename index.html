@@ -33,9 +33,10 @@
         }
         /* Estilos de la columna de cuatrimestre */
         .cuatrimestre-columna {
-            min-width: 250px; /* Ancho mínimo para las columnas */
-            flex: 1; /* Permite que las columnas se expandan */
-            max-width: 300px; /* Ancho máximo para no desbordar en pantallas grandes */
+    flex: 0 0 auto;        /* No se expande */
+    width: 220px;          /* Ancho fijo ideal en mobile */
+    max-width: 90vw;       /* Pero que no supere 90% del ancho */
+ /* Ancho máximo para no desbordar en pantallas grandes */
         }
         /* Estilos generales de las tarjetas de materia */
         .materia {
