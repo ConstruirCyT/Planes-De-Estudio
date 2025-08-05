@@ -303,8 +303,7 @@ function openModal(materiaId) {
     // Detectar si es una casilla de electiva/optativa
     const esCasillaElectiva = materia.EsOptOElec === true;
 
-        
-    
+    // Si es una casilla de electiva/optativa y tiene una electiva asignada, mostrar esa en el modal
     
     if (esCasillaElectiva && materia.electivaAsignada) {
         const electiva = materias.find(m => m.id === materia.electivaAsignada);
@@ -363,7 +362,7 @@ function openModal(materiaId) {
     if (esCasillaElectiva) {
     // Si es una casilla de electiva/optativa, mostrar el selector de electivas
     const disponibles = currentMateri.filter(m =>
-        (m.EsOptOElec === false) && (m.cuatrimestre === "electiva" || m.cuatrimestre === "optativa" || m.cuatrimestre === currentMateriaId.cuatrimestre) // Mostrar la asignada actual también
+        (m.EsOptOElec === true) && (m.cuatrimestre === "electiva" || m.cuatrimestre === "optativa" || m.cuatrimestre === currentMateriaId.cuatrimestre) // Mostrar la asignada actual también
     );
 
     let selectHtml = `<label class="block mt-4 mb-2 font-semibold">Seleccionar materia:</label>
@@ -374,6 +373,7 @@ function openModal(materiaId) {
         selectHtml += `<option value="${opt.id}" ${selected}>${opt.nombre}</option>`;
     });
     selectHtml += `</select>`;
+    const modalOptionsContainer = document.getElementById("modal-options");
 
     modalOptionsContainer.insertAdjacentHTML('beforeend', selectHtml);
     }   
@@ -543,30 +543,44 @@ function closeModal() {
     let materia = materias.find(m => m.id === currentMateriaId);
     if (!materia) return;
 
+    let materiaParaActualizar = materia;
+
+    // Lógica para manejar la "casilla" de electiva
+    const esCasillaElectiva = materia.EsOptOElec === true;
+    if (esCasillaElectiva && materia.electivaAsignada) {
+        const electivaAsignada = materias.find(m => m.id === materia.electivaAsignada);
+        // Es crucial verificar que la electiva se encontró antes de reasignar
+        if (electivaAsignada) {
+            materiaParaActualizar = electivaAsignada;
+        } else {
+             // Si la electiva asignada no se encuentra, salimos con un error
+             modalErrorMessage.textContent = 'Error: No se encontró la materia electiva asignada.';
+             modalErrorMessage.classList.remove('hidden');
+             return;
+        }
+    }
+
     const selectedRadio = modalOptionsContainer.querySelector('input[name="status"]:checked');
-    const newStatus = selectedRadio ? selectedRadio.value : materia.status; // Si no hay nada seleccionado, mantiene el estado actual
+    const newStatus = selectedRadio ? selectedRadio.value : materiaParaActualizar.status;
 
     let newGrade = null;
-    modalErrorMessage.textContent = ''; // Limpiar mensajes de error anteriores
-    modalErrorMessage.classList.add('hidden'); // Ocultar el contenedor de mensajes
+    modalErrorMessage.textContent = '';
+    modalErrorMessage.classList.add('hidden');
 
-    // --- Validación de Correlativas al CERRAR el modal ---
-    // Esta validación final es crucial para evitar guardar un estado inválido
+    // Validación de Correlativas al CERRAR el modal (usando materiaParaActualizar)
     let unmetPrerequisites = [];
     let needsValidation = false;
 
-    // Determinar qué tipo de correlativa se necesita verificar según el nuevo estado
     if (approvedStates.includes(newStatus)) {
-        unmetPrerequisites = checkCorrelativas(materia, 'final');
+        unmetPrerequisites = checkCorrelativas(materiaParaActualizar, 'final');
         needsValidation = true;
-    } else if (newStatus === 'regular' || newStatus === 'cursando') { // Incluye 'cursando'
-        unmetPrerequisites = checkCorrelativas(materia, 'cursar');
+    } else if (newStatus === 'regular' || newStatus === 'cursando') {
+        unmetPrerequisites = checkCorrelativas(materiaParaActualizar, 'cursar');
         needsValidation = true;
     }
 
-    // Si la validación es necesaria y hay correlativas sin cumplir
     if (needsValidation && unmetPrerequisites.length > 0) {
-        const firstUnmet = unmetPrerequisites[0]; // Tomar la primera correlativa no cumplida para el mensaje
+        const firstUnmet = unmetPrerequisites[0];
         let message = `No se puede guardar como "${statusOptions[newStatus].label}". Requiere: `;
         if (firstUnmet.tipo === 'regularizada') {
             message += `regularizar "${firstUnmet.nombre}".`;
@@ -574,64 +588,36 @@ function closeModal() {
             message += `aprobar "${firstUnmet.nombre}".`;
         }
         modalErrorMessage.textContent = message;
-        modalErrorMessage.classList.remove('hidden'); // Mostrar el mensaje de error
-        return; // ¡IMPORTANTE! Detiene el cierre del modal si las correlativas no se cumplen
+        modalErrorMessage.classList.remove('hidden');
+        return;
     }
-    // --- Fin Validación de Correlativas ---
 
-    // --- Validación de Nota (lógica existente) ---
-    // Solo se valida la nota si el nuevo estado es "aprobada", "promocionada" o "equivalencia"
+    // Validación de Nota (usando materiaParaActualizar)
     if (approvedStates.includes(newStatus)) {
         newGrade = parseFloat(gradeInput.value);
         if (isNaN(newGrade) || newGrade < 1 || newGrade > 10) {
             modalErrorMessage.textContent = 'Por favor, introduce una nota válida (1-10).';
             modalErrorMessage.classList.remove('hidden');
-            return; // No cierra el modal si la nota es inválida
+            return;
         }
         if ((newStatus === 'aprobada' || newStatus === 'promocionada') && newGrade < 4) {
              modalErrorMessage.textContent = 'Para aprobar/promocionar, la nota debe ser 4 o más.';
              modalErrorMessage.classList.remove('hidden');
-             return; // No cierra el modal
-        }
-    }
-    // --- Fin Validación de Nota ---
-
-    // Si es casilla de electiva, actualizá la asignación
-    if (materia.EsOptOElec === true) {
-        const selector = document.getElementById('selector-electiva');
-        if (selector) {
-            // Desasignar la electiva anterior si la hay
-            if (materia.electivaAsignada) {
-                const anterior = materias.find(m => m.id === materia.electivaAsignada);
-                if (anterior) anterior.asignada = false;
-            }
-            // Asignar la nueva electiva
-            const electivaId = selector.value;
-            materia.electivaAsignada = electivaId;
-            const electiva = materias.find(m => m.id === electivaId);
-            if (electiva) electiva.asignada = true;
-            electiva.cuatrimestre = materia.cuatrimestre; // Asegurar que la electiva tenga el cuatrimestre correcto
-        }
-        // Si hay electiva asignada, los cambios de estado y nota se aplican a la electiva real:
-        if (materia.electivaAsignada) {
-            materia = materias.find(m => m.id === materia.electivaAsignada);
+             return;
         }
     }
 
-// Ahora actualizá materia.status y materia.nota normalmente
+    // Si todas las validaciones pasan, se aplica el cambio
+    materiaParaActualizar.status = newStatus;
+    materiaParaActualizar.nota = newGrade;
 
-    // Si todas las validaciones (correlativas y nota) pasan, entonces se actualiza y cierra
-    materia.status = newStatus;
-    materia.nota = newGrade;
+    statusModal.classList.add('hidden');
+    statusModal.classList.remove('flex');
+    currentMateriaId = null;
 
-    statusModal.classList.add('hidden'); // Ocultar el modal
-    statusModal.classList.remove('flex'); // Quitar la clase flex para que hidden funcione
-    currentMateriaId = null; // Limpiar la materia actual
-
-    
-    saveState(); // Guarda el estado actualizado
-    updateMetrics(); // Recalcula y actualiza las métricas de progreso
-    renderPlan(); // Re-renderiza todo el plan para actualizar visualmente las correlativas de otras materias
+    saveState();
+    updateMetrics();
+    renderPlan();
 }
 
 
